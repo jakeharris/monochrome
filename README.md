@@ -5,12 +5,10 @@ A horror-survival-puzzler. Survive a night in a cursed house where silence choke
 
 Table of Contents
 =================
-Introduction
 
-Design
-
-Mechanics
-
+Introduction 
+Design 
+Mechanics 
 Plot
 
 Introduction
