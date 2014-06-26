@@ -9,18 +9,9 @@ I gotta go <3
 Also, how will we make a game of variable length with only a particular amount of content? How do we "stage" the game so that at first there are bones, then bones and wolves, then all three? What puzzles are meaningful if things are random?
 
 ####Jessie Chapman
-Potty break so can't answer
 
-By
+the way around the random coming out of doors is to maybe have it only happen on that floor
 
-But*
-
-...
-
-
-####Jessie Chapman
-
-also the way around the random coming out of doors is to maybe have it only happen on that floor
 but also remember if they leave the door open they can leave as normal
 ####unknownhybrid
 yeah, okay. I thought of that again yesterday, but thought it was a new idea (the door open thing). maybe that would be enough to make it okay
