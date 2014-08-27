@@ -44,6 +44,7 @@ Root
 1. Determine root room.
 a. Loop through rooms, asking each room how many interstices each has.
 b. If we have no root yet, or if the current room has more interstices than the current root, replace the current root with the current room.
-2. 
+2. Thing.
+
 ### Step 2: Geography
 ### Step 3: Resolution
