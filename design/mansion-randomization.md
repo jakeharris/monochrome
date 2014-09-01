@@ -40,6 +40,11 @@ Root
 - root room
 
 ## Process
+*Steps with 0 in their number are steps that only happen once the game has begun, not during the initial map generation.*
+
+### Step 0: The Interstice
+Replace all exits to the room the user is in with a random instance of The Interstice until we can finish the shuffle, or until the user walks to an exit of the Interstice, whichever happens first.
+
 ### Step 1: Topography
 1. Determine root room.
 a. Loop through rooms, asking each room how many interstices each has.
