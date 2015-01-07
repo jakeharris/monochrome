@@ -33,7 +33,9 @@ public class BonesGraphics : MonoBehaviour {
         DeterminePerceivableVolumeSources();
         foreach (Volume v in perceivableVolumes)
         {
-            perceivedVolume += (v.GetVolume() - (nav.CalculatePathLength(v.gameObject.transform.position) + nav.stoppingDistance + 1.6f));
+            Debug.Log("Volume source: " + v.gameObject.name + ", current perceived volume: " + perceivedVolume);
+            perceivedVolume += (v.GetVolume() - nav.remainingDistance / 3 > 0) ? v.GetVolume() - nav.remainingDistance / 3 : 0;
+            Debug.Log("Post-perception volume: " + perceivedVolume);
         }
         // TODO: Name this better
         RemovePerceivableVolumeSources();
@@ -59,9 +61,15 @@ public class BonesGraphics : MonoBehaviour {
         {
             if (v.GetVolume() - nav.CalculatePathLength(v.gameObject.transform.position) <= 0)
                 if (perceivableVolumes.Contains(v))
+                {
                     perceivableVolumes.Remove(v);
-            else
-                perceivableVolumes.Add(v);
+                    volumes.Add(v);
+                }
+                else
+                {
+                    perceivableVolumes.Add(v);
+                    volumes.Remove(v);
+                }
         }
     }
 

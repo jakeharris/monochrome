@@ -161,7 +161,7 @@ public class BonesAI : MonoBehaviour, IEnemyAI {
 	}
     #endregion
     #region Interface implementation
-    // Interface implementation
+
 	public void Hound() {
 		if (hound.isTesting && hound.isStillTesting) {
 			Debug.Log ("Hounding");
@@ -190,6 +190,13 @@ public class BonesAI : MonoBehaviour, IEnemyAI {
         //   1. We weren't already hounding anyone, and
         //   2. no one else was hounding this target.)
 		if (!(state == State.HOUNDING) && !IsTargetBeingFollowed()) {
+            Debug.Log("Rattling Bones: " + gameObject.name);
+            Debug.Log("State: " + state);
+            Debug.Log("Position: " + transform.position);
+            RaycastHit hit;
+            Vector3 direction = GameObject.FindGameObjectWithTag("Player").transform.position - transform.position;
+            if (Physics.Raycast(transform.position + transform.up, direction.normalized, out hit, 100))
+                Debug.Log("Distance from player: " + hit.distance);
             Rattle();
             state = State.HOUNDING;
 		}
@@ -246,11 +253,12 @@ public class BonesAI : MonoBehaviour, IEnemyAI {
     {
         // I know this isn't good logic (should be vacuously true),
         // but that isn't helpful
-        if (!det.HasTarget()) return false;
+        if (!det.HasTarget()) return true;
 
-        ArrayList possibleFollowers = det.GetTarget().GetNearbyObjectsWithTag("Bones");
+        ArrayList possibleFollowers = det.GetTarget().GetNearbyObjectsWithTag("Bones", 15f);
         foreach (GameObject follower in possibleFollowers)
         {
+            if (follower == this) continue;
             var followerAI = follower.GetComponent<BonesAI>();
             if (followerAI != null && followerAI.state == State.HOUNDING) return true;
         }
