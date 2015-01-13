@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -34,7 +34,7 @@ public class BonesGraphics : MonoBehaviour {
         foreach (Volume v in perceivableVolumes)
         {
             Debug.Log("Volume source: " + v.gameObject.name + ", current perceived volume: " + perceivedVolume);
-            perceivedVolume += (v.GetVolume() - nav.remainingDistance / 3 > 0) ? v.GetVolume() - nav.remainingDistance / 3 : 0;
+            perceivedVolume += (nav.remainingDistance > 0) ? v.GetVolume () * (v.GetVolume() / nav.remainingDistance) : 0;
             Debug.Log("Post-perception volume: " + perceivedVolume);
         }
         // TODO: Name this better
@@ -59,17 +59,18 @@ public class BonesGraphics : MonoBehaviour {
     {
         foreach (Volume v in volumes)
         {
-            if (v.GetVolume() - nav.CalculatePathLength(v.gameObject.transform.position) <= 0)
+            if (v.GetVolume() / nav.CalculatePathLength(v.gameObject.transform.position) < 1) {
                 if (perceivableVolumes.Contains(v))
                 {
                     perceivableVolumes.Remove(v);
                     volumes.Add(v);
                 }
-                else
-                {
-                    perceivableVolumes.Add(v);
-                    volumes.Remove(v);
-                }
+			}
+	        else
+	        {
+	            perceivableVolumes.Add(v);
+	            volumes.Remove(v);
+	        }
         }
     }
 
