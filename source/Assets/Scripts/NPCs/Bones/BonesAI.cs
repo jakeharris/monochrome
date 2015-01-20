@@ -123,7 +123,15 @@ public class BonesAI : MonoBehaviour, IEnemyAI {
 		public Vector3 GetCurrentWaypoint () {
 			//TODO: Fill this shit out.
 			// Needs to cycle through the waypoints.
-			return waypoints[0].position;
+
+            // Note: We use localPosition here. As you might think, that
+            // refers to position relative to the parent object (the position
+            // visible in the Inspector). This may seem unintuitive at first,
+            // since we are using these waypoints to point to world-space
+            // locations, but it makes sense once you realize that
+            // Transform.position of these waypoints changes when the parent
+            // object moves.
+			return waypoints[0].localPosition;
 		}
 	}
 
@@ -149,11 +157,13 @@ public class BonesAI : MonoBehaviour, IEnemyAI {
 		else
 			Destroy (gameObject.transform.Find ("Graphics/Investigation Target").gameObject);
 	}
-
 	void Update () {
-		if (det.DetectsPlayer ()) {
+        if (det.DetectsPlayer())
+        {
 			Hound ();
-		} else if (det.HasTarget ()) {
+        }
+        else if (det.HasTarget())
+        {
 			Investigate ();
 		} else {
 			Patrol ();
@@ -181,7 +191,7 @@ public class BonesAI : MonoBehaviour, IEnemyAI {
 		// distance, the Bones still watch the player. Creepy!
 		transform.LookAt (new Vector3(
 			det.GetTarget ().x,
-			Vector3.up.y,
+			2*Vector3.up.y,
 			det.GetTarget ().z
 		));
 
@@ -190,9 +200,6 @@ public class BonesAI : MonoBehaviour, IEnemyAI {
         //   1. We weren't already hounding anyone, and
         //   2. no one else was hounding this target.)
 		if (!(state == State.HOUNDING) && !IsTargetBeingFollowed()) {
-            Debug.Log("Rattling Bones: " + gameObject.name);
-            Debug.Log("State: " + state);
-            Debug.Log("Position: " + transform.position);
             RaycastHit hit;
             Vector3 direction = GameObject.FindGameObjectWithTag("Player").transform.position - transform.position;
             if (Physics.Raycast(transform.position + transform.up, direction.normalized, out hit, 100))

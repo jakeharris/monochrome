@@ -19,7 +19,7 @@ public class BonesDetection : MonoBehaviour, IEnemyDetection {
 
 	// Unity hooks
 	void Awake () {
-		nav = gameObject.GetParent().GetComponent<NavMeshAgent> ();
+		nav = gameObject.GetComponent<NavMeshAgent> ();
 		player = GameObject.FindWithTag ("Player");
 		brt = GameObject.FindWithTag ("GameController").GetComponent<BonesRattleTracker> ();
 	}
@@ -43,6 +43,7 @@ public class BonesDetection : MonoBehaviour, IEnemyDetection {
         {
             RaycastHit hit;
 
+            // IF we hit the player within this zone...
             if (Physics.Raycast(transform.position + transform.up, direction.normalized, out hit, sightRadius))
             {
                 if (hit.collider.gameObject == player)

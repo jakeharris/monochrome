@@ -20,8 +20,9 @@ public class BonesGraphics : MonoBehaviour {
 
 	// Unity hooks
 	void Awake () {
-		nav = gameObject.GetParent ().GetComponent<NavMeshAgent> ();
-        ren = gameObject.transform.FindChild("skeleton").GetComponent<SkinnedMeshRenderer>();
+		nav = gameObject.GetParent().GetParent().GetComponentInChildren<NavMeshAgent> ();
+        
+        ren = gameObject.GetComponent<SkinnedMeshRenderer>();
         volumes = new List<Volume>(GameObject.FindObjectsOfType<Volume>());
 
         perceivableVolumes = new List<Volume>();
@@ -33,9 +34,9 @@ public class BonesGraphics : MonoBehaviour {
         DeterminePerceivableVolumeSources();
         foreach (Volume v in perceivableVolumes)
         {
-            Debug.Log("Volume source: " + v.gameObject.name + ", current perceived volume: " + perceivedVolume);
+            //Debug.Log("Volume source: " + v.gameObject.name + ", current perceived volume: " + perceivedVolume);
             perceivedVolume += (nav.remainingDistance > 0) ? v.GetVolume () * (v.GetVolume() / nav.remainingDistance) : 0;
-            Debug.Log("Post-perception volume: " + perceivedVolume);
+            //Debug.Log("Post-perception volume: " + perceivedVolume);
         }
         // TODO: Name this better
         RemovePerceivableVolumeSources();
@@ -63,22 +64,17 @@ public class BonesGraphics : MonoBehaviour {
                 if (perceivableVolumes.Contains(v))
                 {
                     perceivableVolumes.Remove(v);
-                    volumes.Add(v);
                 }
-			}
-	        else
-	        {
-	            perceivableVolumes.Add(v);
-	            volumes.Remove(v);
-	        }
+            }
+            else if(!perceivableVolumes.Contains(v))
+            {
+                perceivableVolumes.Add(v);
+            }
         }
     }
 
     public void RemovePerceivableVolumeSources()
     {
-        foreach (Volume v in perceivableVolumes)
-        {
-            if (volumes.Contains(v)) volumes.Remove(v);
-        }
+
     }
 }
