@@ -14,9 +14,10 @@ public class BonesGraphics : MonoBehaviour {
 
     public float opacity = 1f;
     public bool isTesting = false;
+    public bool isEnabled = true;
 
     [System.NonSerialized]
-    public static int OPAQUE_THRESHOLD = 7;
+    public static int OPAQUE_THRESHOLD = 14;
 
 	// Unity hooks
 	void Awake () {
@@ -24,6 +25,8 @@ public class BonesGraphics : MonoBehaviour {
         
         ren = gameObject.GetComponent<SkinnedMeshRenderer>();
         volumes = new List<Volume>(GameObject.FindObjectsOfType<Volume>());
+
+        Debug.Log("# of Volume objects: " + volumes.Count);
 
         perceivableVolumes = new List<Volume>();
 	}
@@ -34,17 +37,19 @@ public class BonesGraphics : MonoBehaviour {
         DeterminePerceivableVolumeSources();
         foreach (Volume v in perceivableVolumes)
         {
-            //Debug.Log("Volume source: " + v.gameObject.name + ", current perceived volume: " + perceivedVolume);
-            perceivedVolume += (nav.remainingDistance > 0) ? v.GetVolume () * (v.GetVolume() / nav.remainingDistance) : 0;
-            //Debug.Log("Post-perception volume: " + perceivedVolume);
+            if (isTesting) Debug.Log("Volume source: " + v.gameObject.name + ", current perceived volume: " + perceivedVolume);
+            perceivedVolume += (nav.remainingDistance > 0) ? v.GetVolume () * (v.GetVolume () / nav.remainingDistance) : 0;
+            if (isTesting) Debug.Log("Post-perception volume: " + perceivedVolume);
         }
         // TODO: Name this better
         RemovePerceivableVolumeSources();
 
-        if (isTesting) return;
+        if (!isEnabled) return;
         opacity = perceivedVolume / (float)OPAQUE_THRESHOLD;
 
         if (opacity > 1f) opacity = 1f;
+
+        if (isTesting) Debug.Log("Opacity: " + opacity);
 
         Color c = ren.materials[0].color;
         c.a = opacity;

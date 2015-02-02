@@ -45,4 +45,15 @@ public static class ExtensionMethods {
 
         return objects;
     }
+    public static IEnumerator PlayByFadingIn(this AudioSource src, int fadeFidelity, float fadeDuration)
+    {
+        var maxVolume = 1;
+        src.volume = 0;
+        for (int x = 0; x < fadeFidelity; x++)
+        {
+            Debug.Log("Volume: " + src.volume);
+            src.volume += maxVolume * (fadeDuration / fadeFidelity);
+            yield return new WaitForSeconds(fadeDuration / fadeFidelity);
+        }
+    }
 }
