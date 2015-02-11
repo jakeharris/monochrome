@@ -11,6 +11,7 @@ public class BonesGraphics : MonoBehaviour {
     private SkinnedMeshRenderer ren;
 
     private float perceivedVolume = 0f;
+	private float amplitude = 2f / 3;
 
     public float opacity = 1f;
     public bool isTesting = false;
@@ -38,7 +39,7 @@ public class BonesGraphics : MonoBehaviour {
         foreach (Volume v in perceivableVolumes)
         {
             if (isTesting) Debug.Log("Volume source: " + v.gameObject.name + ", current perceived volume: " + perceivedVolume);
-            perceivedVolume += (nav.remainingDistance > 0) ? v.GetVolume () * (v.GetVolume () / nav.remainingDistance) : 0;
+			perceivedVolume += (nav.remainingDistance > 0) ? v.GetVolume () * (v.GetVolume () / (nav.CalculatePathLength(v.gameObject.transform.position) / amplitude)) : 0;
             if (isTesting) Debug.Log("Post-perception volume: " + perceivedVolume);
         }
         // TODO: Name this better
