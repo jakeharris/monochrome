@@ -170,7 +170,9 @@ public class Gait : MonoBehaviour
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        return !(Mathf.Abs(h) == 0 && Mathf.Abs(v) == 0);
+		//CharacterMotor motor = cm;
+
+		return !(Mathf.Abs(h) == 0 && Mathf.Abs(v) == 0 /* && motor.isMoving() */);
     }
 
 }
