@@ -52,11 +52,14 @@ public class PlayerHealth : UnityEngine.MonoBehaviour, IHealth
         Debug.Log("Taking " + damage + " damage...");
         Debug.Log("Health remaining: " + current);
         // TODO: Play damage clip
+		src.PlayOneShot(damageClip);
     }
 
     public void Heal(int damage)
     {
         current += damage;
+		if (current > max)
+			current = max;
 
         Debug.Log("Healing " + damage + " damage...");
         Debug.Log("Health remaining: " + current);
