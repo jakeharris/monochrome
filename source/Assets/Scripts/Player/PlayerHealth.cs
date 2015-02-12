@@ -9,7 +9,7 @@ public class PlayerHealth : UnityEngine.MonoBehaviour, IHealth
     public int max = 100;
     public AudioClip damageClip;
     public GUITexture damageTint;
-    public int regenerationRate = 8;
+    public float regenerationRate = 8f;
     public float regenerationDelay = 1f;
 
     bool isDead = false;
@@ -31,6 +31,7 @@ public class PlayerHealth : UnityEngine.MonoBehaviour, IHealth
         // Cover the whole screen with the damageTint texture
         Rect r = new Rect(-Screen.width / 2, -Screen.height / 2, Screen.width, Screen.height);
         damageTint.pixelInset = r;
+		TintScreenFromDamage ();
 	}
 	
 	void Update () {
@@ -73,17 +74,18 @@ public class PlayerHealth : UnityEngine.MonoBehaviour, IHealth
     public void Regenerate()
     {
         timer += Time.deltaTime;
-        if (timer >= regenerationDelay + regenerationRate)
+        if (timer > regenerationDelay)
         {
             Heal((int)regenerationRate);
-            timer = regenerationDelay;
+			// FIXME: Magic numbers
+            timer = regenerationDelay * 70 / 71;
         }
     }
     # endregion
     #region Extra methods
     void TintScreenFromDamage()
     {
-        float alpha = 1 - ((float)current / (float)max);
+		float alpha = (1 - ((float)current / (float)(max))) / 2;
         Color c = new Color(damageTint.color.r, damageTint.color.g, damageTint.color.b, alpha);
         damageTint.color = c;
     }

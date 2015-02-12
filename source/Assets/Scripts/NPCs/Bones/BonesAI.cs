@@ -22,10 +22,10 @@ public class BonesAI : MonoBehaviour, IEnemyAI {
         public bool isTesting = false;
         [System.NonSerialized]
         public bool isStillTesting = true;
-        public float cooldown = 3f;
+        public float cooldown = 2.2f;
         public float range = 3f;
         [System.NonSerialized]
-        public float timer = 3f;
+        public float timer = 2.2f;
         public int damage = 12;
 
         public void ConfigureNav(Vector3 target, ref NavMeshAgent nav)
