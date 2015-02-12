@@ -7,6 +7,17 @@ public class Flashlight : MonoBehaviour {
 
 	public float intensity = 3.87f;
 
+	public float flickerCheckTimeLimit = 5f;
+	public float expirationTimeLimit = 2f;
+	public int modifier = 30;
+	public int usageAmount = 10;
+	public int threshold = 70;
+
+	private bool isFlickering = false;
+	private int currentModifier = 30;
+	private float flickerCheckTimer = 0f;
+	private float expirationTimer = -1f;
+
 	void Awake () {
 		this.transform.light.intensity = intensity;
 	}
@@ -20,10 +31,47 @@ public class Flashlight : MonoBehaviour {
 			this.transform.eulerAngles.y,
 			this.transform.eulerAngles.z
 		);
+
+		flickerCheckTimer += Time.deltaTime;
+		if (flickerCheckTimer >= flickerCheckTimeLimit
+			|| currentModifier > 0) {
+			Flicker ();
+			flickerCheckTimer = 0;
+		}
 	}
 
 	private bool IsOn() {
 		return this.transform.light.intensity != 0;
+	}
+
+	private void Flicker() {
+		int random = (int)(Random.value * 100);
+
+		if (isFlickering) {
+			isFlickering = !isFlickering;
+			this.transform.light.intensity = intensity;
+			return;
+		}
+
+		if (expirationTimer >= 0f) {
+			expirationTimer += Time.deltaTime;
+			if (expirationTimer > expirationTimeLimit) {
+				currentModifier = 0;
+				expirationTimer = -1f;
+			}
+		}
+
+		if (random + currentModifier > threshold) {
+			isFlickering = true;
+			expirationTimer = 0f;
+			this.transform.light.intensity = 0;
+			if (currentModifier > 0) {
+				currentModifier -= usageAmount;
+				if (currentModifier < 0)
+					currentModifier = 0;
+			} else
+				currentModifier = modifier;
+		}
 	}
 
 	// NOTES:
