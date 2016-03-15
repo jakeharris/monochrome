@@ -45,7 +45,7 @@ You've got this.
 
 Design
 ======
-*If you're looking for detailed design documents, look here.*
+*If you're looking for detailed design documents, look [here](https://github.com/javakat/monochrome/tree/master/design).*
 
 Our core design tenets for this game are as follows:
 * Prioritize experience over plot. 
@@ -54,7 +54,7 @@ Our core design tenets for this game are as follows:
 
 Mechanics
 =========
-*If you're looking for spoiler-heavy mechanics design, look here.*
+*If you're looking for spoiler-heavy mechanics design, look [here](https://github.com/javakat/monochrome/tree/master/design).*
 
 The core mechanic of Monochrome is that everything is, well, monochromatic. Except sound. Sounds
 in the environment will produce rippling splashes of color, indicating to you as the player very
